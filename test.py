@@ -1,17 +1,15 @@
-from alpaca.data.live import CryptoDataStream
-#%%
-API_KEY = "PKU3DDFUNXYSUF752QK4"
-SECRET_KEY = "Pm44X3n38o6BI9Zjy9eFsWrwvsEOzo8vExDbaPyV"
+from api.data_downloader import YahooDataDownloader
 
-# Initiate class
-crypto_stream = CryptoDataStream(API_KEY, SECRET_KEY)
-#%%
-async def bar_callback(bar):
-    for property_name, value in bar:
-        print(f"\"{property_name}\": {value}")
+if __name__ == '__main__':
+    yahoo_data_downloader = YahooDataDownloader()
+    name = 'AAPL'
+    instrument_type='stock'
+    start = '2019-01-01'
+    end = '2021-06-12'
+    yahoo_data_downloader.download_data(financial_instrument_name=name,
+                                        financial_instrument_type=instrument_type,
+                                        data_start=start,
+                                        data_end=end
+                                        )
 
-# Subscribing to bar event
-symbol = "BTC/USD"
-crypto_stream.subscribe_bars(bar_callback, symbol)
-
-crypto_stream.run()
+    yahoo_data_downloader.print_downloaded_data(n_rows=-1)
